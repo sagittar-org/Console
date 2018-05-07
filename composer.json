@@ -1,0 +1,21 @@
+{
+    "name": "pieni/console",
+    "description": "Prototyping console for pieni",
+    "type": "library",
+    "keywords": [
+        "pieni",
+        "proto",
+        "console"
+    ],
+    "homepage": "https://github.com/sagittar-org/pieni",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sagittarius Systems",
+            "homepage": "https://github.com/sagittar-org"
+        }
+    ],
+    "require": {
+        "pieni/pieni": "0.1.3"
+    }
+}
