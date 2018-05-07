@@ -22,7 +22,7 @@ class Console
 		]);
 		$this->request_database = new \pieni\Sync\Handler('request_database', [
 			['\pieni\Sync\Json', ['path' => FCPATH.'/sync/json']],
-			['\pieni\Proto\RequestDatabase', ['actual_database' => $this->actual_database, 'application_database' => $this->application_database]],
+			['\pieni\Proto\RequestDatabase', ['application_database' => $this->application_database]],
 		]);
 		$this->actual_table = new \pieni\Sync\Handler('actual_table', [
 			['\pieni\Sync\Json', ['path' => FCPATH.'/sync/json']],
@@ -35,7 +35,7 @@ class Console
 		]);
 		$this->request_table = new \pieni\Sync\Handler('request_table', [
 			['\pieni\Sync\Json', ['path' => FCPATH.'/sync/json']],
-			['\pieni\Proto\RequestTable', ['request_database' => $this->request_database, 'actual_table' => $this->actual_table, 'application_table' => $this->application_table]],
+			['\pieni\Proto\RequestTable', ['request_database' => $this->request_database, 'application_table' => $this->application_table]],
 		]);
 	}
 

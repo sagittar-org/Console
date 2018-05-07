@@ -16,6 +16,6 @@
         }
     ],
     "require": {
-        "pieni/pieni": "0.1.3"
+        "pieni/pieni": "0.1.*"
     }
 }
