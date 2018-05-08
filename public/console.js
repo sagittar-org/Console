@@ -31,6 +31,7 @@ $(() => {
 			'dataType': 'json',
 			'success': (vars) => {
 				drawIndex('index-config-db-data', vars.db);
+				drawIndex('index-config-languages-data', vars.languages);
 				drawIndex('index-config-actors-data', vars.actors);
 			},
 		});

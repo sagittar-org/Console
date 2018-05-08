@@ -48,6 +48,9 @@ class Console
 						'db' => [
 							'index-config-db' => \pieni\Proto\Config::$columns['db'],
 						],
+						'languages' => [
+							'index-config-languages' => \pieni\Proto\Config::$columns['languages'],
+						],
 						'actors' => [
 							'index-config-actors' => \pieni\Proto\Config::$columns['actors'],
 						],
