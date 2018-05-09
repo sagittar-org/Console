@@ -1,4 +1,4 @@
-<table class="table table-sm">
+<table class="table table-hover table-sm">
   <thead>
     <tr>
       <th>id</th>

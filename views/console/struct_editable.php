@@ -1,12 +1,14 @@
-<button class="add btn btn-default btn-sm">Add</button>
-<table class="table table-sm">
+<div class="text-right">
+  <button class="add btn btn-default btn-sm">Add</button>
+</div>
+<table class="table table-hover table-sm">
   <thead>
     <tr>
       <th>id</th>
 <?php foreach ($vars['data'] as $column): ?>
       <th><?php h($column); ?></th>
 <?php endforeach; ?>
-      <th>Actions</th>
+      <th style="width:0px;">Actions</th>
     <tr>
   </thead>
   <tbody id="<?php h($vars['id']); ?>-data" data-columns='<?php echo json_encode($vars['data']); ?>'>

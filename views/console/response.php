@@ -7,7 +7,7 @@
 <script src="<?php pub('third_party/bootstrap/js/bootstrap.min.js'); ?>"></script>
 <script>const siteUrl = '<?php href(''); ?>';</script>
 <?php load_view($vars['view'], $vars, '', $vars['class']); ?>
-<footer class="footer">
+<footer class="footer text-right">
   <div class="container">
     <span class="text-muted">Place sticky footer content here.</span>
   </div>

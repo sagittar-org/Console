@@ -202,7 +202,7 @@ $(() => {
 	});
 	$('.add').on('click', (e) => {
 		showModalAdd(
-			$(e.target).parent().find('tbody').attr('id'),
+			$(e.target).closest('.struct').find('tbody').attr('id'),
 		);
 	});
 	$('#modal-edit-save').on('click', () => {
