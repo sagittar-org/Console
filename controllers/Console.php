@@ -11,16 +11,6 @@ class Console
 		$this->$handler->drivers[0]->put($data, time(), $name);
 	}
 
-	public function delete_table($unit, $table, $row)
-	{
-		$arr = explode('.', $unit);
-		$handler = $arr[0];
-		$name = isset($arr[1]) ? $arr[1] : '';
-		$data = $this->$handler->drivers[0]->get($name);
-		unset($data[$table][$row]);
-		$this->$handler->drivers[0]->put($data, time(), $name);
-	}
-
 	public function __construct()
 	{
 		$this->config = new \pieni\Sync\Handler('config', [

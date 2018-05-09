@@ -9,7 +9,7 @@
       <th>Actions</th>
     <tr>
   </thead>
-  <tbody id="<?php h($vars['id']); ?>-data">
+  <tbody id="<?php h($vars['id']); ?>-data" data-columns='<?php echo json_encode($vars['data']); ?>'>
     <tr class="d-none">
       <td class="edit" name="id"></td>
 <?php foreach ($vars['data'] as $column): ?>

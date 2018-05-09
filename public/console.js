@@ -43,7 +43,8 @@ function putModalDelete()
 	delete window.units[unit][table][row];
 	$.ajax({
 		type: 'POST',
-		url: siteUrl + 'api/console/delete_table/' + unit + '/' + table + '/' + row,
+		url: siteUrl + 'api/console/put_table/' + unit + '/' + table,
+		data: 'data=' + JSON.stringify(window.units[unit][table]),
 		success: (vars) => {
 			drawIndex(elmId, window.units[unit][table]);
 			$('#modal-delete').modal('hide');
@@ -57,7 +58,14 @@ function putModalAdd()
 	const unit = $('#modal-add').data('unit');
 	const table = $('#modal-add').data('table');
 	const id = $('#modal-add .modal-data').val().trim();
-	window.units[unit][table][id] = [];
+	const columns = $('#' + elmId).data('columns');
+	if (Array.isArray(window.units[unit][table])) {
+		window.units[unit][table] = {};
+	}
+	window.units[unit][table][id] = {};
+	for (let i in columns) {
+		window.units[unit][table][id][columns[i]] = '';
+	}
 	$.ajax({
 		type: 'POST',
 		url: siteUrl + 'api/console/put_table/' + unit + '/' + table,
