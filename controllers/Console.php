@@ -11,6 +11,16 @@ class Console
 		$this->$handler->drivers[0]->put($data, time(), $name);
 	}
 
+	public function delete_table($unit, $table, $row)
+	{
+		$arr = explode('.', $unit);
+		$handler = $arr[0];
+		$name = isset($arr[1]) ? $arr[1] : '';
+		$data = $this->$handler->drivers[0]->get($name);
+		unset($data[$table][$row]);
+		$this->$handler->drivers[0]->put($data, time(), $name);
+	}
+
 	public function __construct()
 	{
 		$this->config = new \pieni\Sync\Handler('config', [
@@ -56,13 +66,13 @@ class Console
 				'config' => [
 					'tab-config' => [
 						'db' => [
-							'index-config-db' => \pieni\Proto\Config::$columns['db'],
+							'editable-config-db' => \pieni\Proto\Config::$columns['db'],
 						],
 						'languages' => [
-							'index-config-languages' => \pieni\Proto\Config::$columns['languages'],
+							'editable-config-languages' => \pieni\Proto\Config::$columns['languages'],
 						],
 						'actors' => [
-							'index-config-actors' => \pieni\Proto\Config::$columns['actors'],
+							'editable-config-actors' => \pieni\Proto\Config::$columns['actors'],
 						],
 					],
 				],
@@ -98,7 +108,7 @@ class Console
 								'database' => [
 									'tab-application-database' => [
 										'unset' => [
-											'index-application-database-unset' => \pieni\Proto\ApplicationDatabase::$columns['unset'],
+											'editable-application-database-unset' => \pieni\Proto\ApplicationDatabase::$columns['unset'],
 										],
 									],
 								],
@@ -106,10 +116,10 @@ class Console
 									'selector-application-table' => null,
 									'tab-application-table' => [
 										'actions' => [
-											'index-application-table-actions' => \pieni\Proto\ApplicationTable::$columns['actions'],
+											'editable-application-table-actions' => \pieni\Proto\ApplicationTable::$columns['actions'],
 										],
 										'unset' => [
-											'index-application-table-unset' => \pieni\Proto\ApplicationTable::$columns['unset'],
+											'editable-application-table-unset' => \pieni\Proto\ApplicationTable::$columns['unset'],
 										],
 									],
 								],

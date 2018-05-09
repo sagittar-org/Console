@@ -34,18 +34,35 @@ function putModalEdit()
 	});
 }
 
+function putModalDelete()
+{
+	const elmId = $('#modal-delete').data('elmId');
+	const unit = $('#modal-delete').data('unit');
+	const table = $('#modal-delete').data('table');
+	const row = $('#modal-delete').data('row');
+	delete window.units[unit][table][row];
+	$.ajax({
+		type: 'POST',
+		url: siteUrl + 'api/console/delete_table/' + unit + '/' + table + '/' + row,
+		success: (vars) => {
+			drawIndex(elmId, window.units[unit][table]);
+			$('#modal-delete').modal('hide');
+		},
+	});
+}
+
 function showModalEdit(elmId, row, column, field)
 {
 	let unit;
 	let table;
 	const arr = elmId.split(/-/);
-	if (elmId.match(/^index-config/)) {
+	if (elmId.match(/^editable-config/)) {
 		unit = 'config';
 		table = arr[2];
-	} else if (elmId.match(/^index-application-database/)) {
+	} else if (elmId.match(/^editable-application-database/)) {
 		unit = 'application_database';
 		table = arr[3];
-	} else if (elmId.match(/^index-application-table/)) {
+	} else if (elmId.match(/^editable-application-table/)) {
 		unit = 'application_table.' + $('[name="selector-application-table"]:checked').val();
 		table = arr[3];
 	} else {
@@ -60,6 +77,32 @@ function showModalEdit(elmId, row, column, field)
 	$('#modal-edit .modal-data').val(field);
 	$('#modal-edit').modal('show');
 	$('#modal-edit .modal-data').focus().select();
+}
+
+function showModalDelete(elmId, row)
+{
+	let unit;
+	let table;
+	const arr = elmId.split(/-/);
+	if (elmId.match(/^editable-config/)) {
+		unit = 'config';
+		table = arr[2];
+	} else if (elmId.match(/^editable-application-database/)) {
+		unit = 'application_database';
+		table = arr[3];
+	} else if (elmId.match(/^editable-application-table/)) {
+		unit = 'application_table.' + $('[name="selector-application-table"]:checked').val();
+		table = arr[3];
+	} else {
+		return;
+	}
+	$('#modal-delete').data('elmId', elmId);
+	$('#modal-delete').data('unit', unit);
+	$('#modal-delete').data('table', table);
+	$('#modal-delete').data('row', row);
+	$('#modal-delete .modal-title').text(unit + '.' + table + '.' + row);
+	$('#modal-delete').modal('show');
+	$('#modal-delete .modal-data').focus().select();
 }
 
 function drawIndex(elmId, data)
@@ -97,8 +140,19 @@ $(() => {
 			$(e.target).text()
 		);
 	});
+	$('.delete').on('click', (e) => {
+		showModalDelete(
+			$(e.target).closest('tbody').attr('id'),
+			$(e.target).closest('tr').find('[name="id"]').text(),
+			$(e.target).attr('name'),
+			$(e.target).text()
+		);
+	});
 	$('#modal-edit-save').on('click', () => {
 		putModalEdit();
+	});
+	$('#modal-delete-delete').on('click', () => {
+		putModalDelete();
 	});
 	$('[href="#tab-category-config"]').on('click', () => {
 		$.ajax({
@@ -106,9 +160,9 @@ $(() => {
 			'dataType': 'json',
 			'success': (vars) => {
 				window.units.config = vars;
-				drawIndex('index-config-db-data', vars.db);
-				drawIndex('index-config-languages-data', vars.languages);
-				drawIndex('index-config-actors-data', vars.actors);
+				drawIndex('editable-config-db-data', vars.db);
+				drawIndex('editable-config-languages-data', vars.languages);
+				drawIndex('editable-config-actors-data', vars.actors);
 			},
 		});
 	});
@@ -139,7 +193,7 @@ $(() => {
 			'dataType': 'json',
 			'success': (vars) => {
 				window.units.application_database = vars;
-				drawIndex('index-application-database-unset-data', vars.unset);
+				drawIndex('editable-application-database-unset-data', vars.unset);
 			},
 		});
 		$.ajax({
@@ -156,8 +210,8 @@ $(() => {
 			'dataType': 'json',
 			'success': (vars) => {
 				window.units['application_table.' + e.target.value] = vars;
-				drawIndex('index-application-table-actions-data', vars.actions);
-				drawIndex('index-application-table-unset-data', vars.unset);
+				drawIndex('editable-application-table-actions-data', vars.actions);
+				drawIndex('editable-application-table-unset-data', vars.unset);
 			},
 		});
 	});
