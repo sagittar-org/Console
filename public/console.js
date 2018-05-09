@@ -1,3 +1,23 @@
+function showModalEdit(elm_id, row, column, field)
+{
+	let unit;
+	let table;
+	const arr = elm_id.split(/-/);
+	if (elm_id.match(/^index-config/)) {
+		unit = 'config';
+		table = arr[2];
+	} else if (elm_id.match(/^index-application-database/)) {
+		unit = 'application_database';
+		table = arr[3];
+	} else if (elm_id.match(/^index-application-table/)) {
+		unit = 'application_table.' + $('[name="selector-application-table"]:checked').val();
+		table = arr[3];
+	}
+	$('#modal-edit .modal-title').text(unit + '.' + table + '.' + row + '.' + column);
+	$('#modal-edit .modal-data').val(field);
+	$('#modal-edit').modal('show');
+}
+
 function drawIndex(elm_id, data)
 {
 	$('#' + elm_id + ' > *:gt(0)').remove();
@@ -25,6 +45,14 @@ function drawSelector(elm_id, data)
 }
 
 $(() => {
+	$('.edit').on('click', (e) => {
+		showModalEdit(
+			$(e.target).closest('tbody').attr('id'),
+			$(e.target).closest('tr').find('[name="id"]').text(),
+			$(e.target).attr('name'),
+			$(e.target).text()
+		);
+	});
 	$('[href="#tab-category-config"]').on('click', () => {
 		$.ajax({
 			'url': siteUrl + 'api/console/get_config',
