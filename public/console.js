@@ -51,6 +51,24 @@ function putModalDelete()
 	});
 }
 
+function putModalAdd()
+{
+	const elmId = $('#modal-add').data('elmId');
+	const unit = $('#modal-add').data('unit');
+	const table = $('#modal-add').data('table');
+	const id = $('#modal-add .modal-data').val().trim();
+	window.units[unit][table][id] = [];
+	$.ajax({
+		type: 'POST',
+		url: siteUrl + 'api/console/put_table/' + unit + '/' + table,
+		data: 'data=' + JSON.stringify(window.units[unit][table]),
+		success: (vars) => {
+			drawIndex(elmId, window.units[unit][table]);
+			$('#modal-add').modal('hide');
+		},
+	});
+}
+
 function showModalEdit(elmId, row, column, field)
 {
 	let unit;
@@ -105,6 +123,32 @@ function showModalDelete(elmId, row)
 	$('#modal-delete .modal-data').focus().select();
 }
 
+
+function showModalAdd(elmId)
+{
+	let unit;
+	let table;
+	const arr = elmId.split(/-/);
+	if (elmId.match(/^editable-config/)) {
+		unit = 'config';
+		table = arr[2];
+	} else if (elmId.match(/^editable-application-database/)) {
+		unit = 'application_database';
+		table = arr[3];
+	} else if (elmId.match(/^editable-application-table/)) {
+		unit = 'application_table.' + $('[name="selector-application-table"]:checked').val();
+		table = arr[3];
+	} else {
+		return;
+	}
+	$('#modal-add').data('elmId', elmId);
+	$('#modal-add').data('unit', unit);
+	$('#modal-add').data('table', table);
+	$('#modal-add .modal-title').text(unit + '.' + table);
+	$('#modal-add').modal('show');
+	$('#modal-add .modal-data').focus().select();
+}
+
 function drawIndex(elmId, data)
 {
 	$('#' + elmId + ' > *:gt(0)').remove();
@@ -148,11 +192,24 @@ $(() => {
 			$(e.target).text()
 		);
 	});
+	$('.add').on('click', (e) => {
+		showModalAdd(
+			$(e.target).parent().find('tbody').attr('id'),
+		);
+	});
 	$('#modal-edit-save').on('click', () => {
 		putModalEdit();
 	});
 	$('#modal-delete-delete').on('click', () => {
 		putModalDelete();
+	});
+	$('#modal-add-add').on('click', () => {
+		putModalAdd();
+	});
+	$('#modal-add input').on('keydown', (e) => {
+		if (e.keyCode === 13) {
+			putModalAdd();
+		}
 	});
 	$('[href="#tab-category-config"]').on('click', () => {
 		$.ajax({

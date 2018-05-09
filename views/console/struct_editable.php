@@ -1,4 +1,4 @@
-<button class="delete btn btn-default btn-sm">Add</button>
+<button class="add btn btn-default btn-sm">Add</button>
 <table class="table table-sm">
   <thead>
     <tr>
