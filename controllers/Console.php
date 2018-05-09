@@ -1,6 +1,16 @@
 <?php
 class Console
 {
+	public function put_table($unit, $table)
+	{
+		$arr = explode('.', $unit);
+		$handler = $arr[0];
+		$name = isset($arr[1]) ? $arr[1] : '';
+		$data = $this->$handler->drivers[0]->get($name);
+		$data[$table] = json_decode($_POST['data'], true);
+		$this->$handler->drivers[0]->put($data, time(), $name);
+	}
+
 	public function __construct()
 	{
 		$this->config = new \pieni\Sync\Handler('config', [

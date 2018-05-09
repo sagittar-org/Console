@@ -7,23 +7,31 @@ function putModalEdit()
 	const table = $('#modal-edit').data('table');
 	const row = $('#modal-edit').data('row');
 	const column = $('#modal-edit').data('column');
+	const field = $('#modal-edit .modal-data').val().trim();
 
 	if (column === 'id') {
 		let hash = {};
 		for (let i in window.units[unit][table])
 		{
 			if (i === row) {
-				hash[$('#modal-edit .modal-data').val()] = window.units[unit][table][i];
+				hash[field] = window.units[unit][table][i];
 			} else {
 				hash[i] = window.units[unit][table][i];
 			}
 		}
 		window.units[unit][table] = hash;
 	} else {
-		window.units[unit][table][row][column] = $('#modal-edit .modal-data').val();
+		window.units[unit][table][row][column] = field;
 	}
-	drawIndex(elmId, window.units[unit][table]);
-	$('#modal-edit').modal('hide');
+	$.ajax({
+		type: 'POST',
+		url: siteUrl + 'api/console/put_table/' + unit + '/' + table,
+		data: 'data=' + JSON.stringify(window.units[unit][table]),
+		success: (vars) => {
+			drawIndex(elmId, window.units[unit][table]);
+			$('#modal-edit').modal('hide');
+		},
+	});
 }
 
 function showModalEdit(elmId, row, column, field)
@@ -51,7 +59,7 @@ function showModalEdit(elmId, row, column, field)
 	$('#modal-edit .modal-title').text(unit + '.' + table + '.' + row + '.' + column);
 	$('#modal-edit .modal-data').val(field);
 	$('#modal-edit').modal('show');
-	$('#modal-edit .modal-data').focus();
+	$('#modal-edit .modal-data').focus().select();
 }
 
 function drawIndex(elmId, data)
