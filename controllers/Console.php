@@ -97,6 +97,12 @@ class Console
 							'tab-application' => [
 								'database' => [
 									'tab-application-database' => [
+										'tables' => [
+											'editable-application-database-tables' => \pieni\Proto\ApplicationDatabase::$columns['tables'],
+										],
+										'references' => [
+											'editable-application-database-references' => \pieni\Proto\ApplicationDatabase::$columns['references'],
+										],
 										'unset' => [
 											'editable-application-database-unset' => \pieni\Proto\ApplicationDatabase::$columns['unset'],
 										],
@@ -107,6 +113,9 @@ class Console
 									'tab-application-table' => [
 										'actions' => [
 											'editable-application-table-actions' => \pieni\Proto\ApplicationTable::$columns['actions'],
+										],
+										'columns' => [
+											'editable-application-table-columns' => \pieni\Proto\ApplicationTable::$columns['columns'],
 										],
 										'unset' => [
 											'editable-application-table-unset' => \pieni\Proto\ApplicationTable::$columns['unset'],
@@ -125,6 +134,9 @@ class Console
 										],
 										'references' => [
 											'index-request-database-references' => \pieni\Proto\RequestDatabase::$columns['references'],
+										],
+										'er_diagram' => [
+											'image-request-database-er_diagram' => \pieni\Proto\RequestDatabase::$columns['er_diagram'],
 										],
 									],
 								],

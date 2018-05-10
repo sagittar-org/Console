@@ -153,6 +153,7 @@ function showModalAdd(elmId)
 	$('#modal-add').data('unit', unit);
 	$('#modal-add').data('table', table);
 	$('#modal-add .modal-title').text(unit + '.' + table);
+	$('#modal-add .modal-data').val('');
 	$('#modal-add').modal('show');
 	$('#modal-add .modal-data').focus().select();
 }
@@ -169,6 +170,11 @@ function drawIndex(elmId, data)
 		}
 		$('#' + elmId).append(elm);
 	}
+}
+
+function drawImage(elmId, data)
+{
+	$('#' + elmId).attr('src', data.base64.value);
 }
 
 function drawSelector(elmId, data)
@@ -258,6 +264,8 @@ $(() => {
 			'dataType': 'json',
 			'success': (vars) => {
 				window.units.application_database = vars;
+				drawIndex('editable-application-database-tables-data', vars.tables);
+				drawIndex('editable-application-database-references-data', vars.references);
 				drawIndex('editable-application-database-unset-data', vars.unset);
 			},
 		});
@@ -276,6 +284,7 @@ $(() => {
 			'success': (vars) => {
 				window.units['application_table.' + e.target.value] = vars;
 				drawIndex('editable-application-table-actions-data', vars.actions);
+				drawIndex('editable-application-table-columns-data', vars.columns);
 				drawIndex('editable-application-table-unset-data', vars.unset);
 			},
 		});
@@ -297,6 +306,7 @@ $(() => {
 			'success': (vars) => {
 				drawIndex('index-request-database-tables-data', vars.tables);
 				drawIndex('index-request-database-references-data', vars.references);
+				drawImage('image-request-database-er_diagram-data', vars.er_diagram);
 				drawSelector('selector-request-alias', Object.assign(vars.tables, vars.references));
 				$('#selector-request-action > *:gt(0)').remove();
 				$('#index-request-table-primary_keys-data > *:gt(0)').remove();
