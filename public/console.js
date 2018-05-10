@@ -1,5 +1,42 @@
 window.units = {};
 
+function putSortable(e)
+{
+	const elmId = $(e.detail.origin.container).attr('id');
+	let unit;
+	let table;
+	const arr = elmId.split(/-/);
+	if (elmId.match(/^editable-config/)) {
+		unit = 'config';
+		table = arr[2];
+	} else if (elmId.match(/^editable-application-database/)) {
+		unit = 'application_database';
+		table = arr[3];
+	} else if (elmId.match(/^editable-application-table/)) {
+		unit = 'application_table.' + $('[name="selector-application-table"]:checked').val();
+		table = arr[3];
+	} else {
+		return;
+	}
+	let hash = {};
+	for (let row of e.detail.origin.items)
+	{
+		if ($(row).hasClass('d-none')) continue;
+		const i = $(row).find('[name="id"]').text();
+		hash[i] = window.units[unit][table][i];
+	}
+	window.units[unit][table] = hash;
+	$.ajax({
+		type: 'POST',
+		url: siteUrl + 'api/console/put_table/' + unit + '/' + table,
+		data: 'data=' + JSON.stringify(window.units[unit][table]),
+		success: (vars) => {
+			drawIndex(elmId, window.units[unit][table]);
+			$('#modal-edit').modal('hide');
+		},
+	});
+}
+
 function putModalEdit()
 {
 	const elmId = $('#modal-edit').data('elmId');
@@ -190,6 +227,10 @@ function drawSelector(elmId, data)
 }
 
 $(() => {
+	sortable('.sortable', {forcePlaceholderSize:true});
+	$('.sortable').on('sortupdate', function(e) {
+		putSortable(e);
+	});
 	$('.edit').on('click', (e) => {
 		showModalEdit(
 			$(e.target).closest('tbody').attr('id'),
