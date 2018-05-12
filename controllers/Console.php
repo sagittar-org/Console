@@ -52,6 +52,7 @@ class Console
 	public function index()
 	{
 		$vars['struct'] = [
+			'selector-permission' => null,
 			'tab-category' => [
 				'config' => [
 					'tab-config' => [

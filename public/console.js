@@ -227,6 +227,29 @@ function drawSelector(elmId, data)
 }
 
 $(() => {
+	drawSelector('selector-permission', {editable:null, readonly:null, both:null});
+	$('[name="selector-permission"]').on('click', (e) => {
+		$('[href="#tab-category-config"]').addClass('d-none');
+		$('[href="#tab-layer-actual"]').addClass('d-none');
+		$('[href="#tab-layer-application"]').addClass('d-none');
+		$('[href="#tab-layer-request"]').addClass('d-none');
+		switch (e.target.value) {
+		case 'editable':
+			$('[href="#tab-category-config"]').removeClass('d-none');
+			$('[href="#tab-layer-application"]').removeClass('d-none');
+			break;
+		case 'readonly':
+			$('[href="#tab-layer-actual"]').removeClass('d-none');
+			$('[href="#tab-layer-request"]').removeClass('d-none');
+			break;
+		case 'both':
+			$('[href="#tab-category-config"]').removeClass('d-none');
+			$('[href="#tab-layer-actual"]').removeClass('d-none');
+			$('[href="#tab-layer-application"]').removeClass('d-none');
+			$('[href="#tab-layer-request"]').removeClass('d-none');
+			break;
+		}
+	});
 	sortable('.sortable', {forcePlaceholderSize:true});
 	$('.sortable').on('sortupdate', function(e) {
 		putSortable(e);
