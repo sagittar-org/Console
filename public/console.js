@@ -227,20 +227,20 @@ function drawSelector(elmId, data)
 }
 
 $(() => {
-	drawSelector('selector-permission', {editable:null, readonly:null, both:null});
+	drawSelector('selector-permission', {readonly:null, editable:null, both:null});
 	$('[name="selector-permission"]').on('click', (e) => {
 		$('[href="#tab-category-config"]').addClass('d-none');
 		$('[href="#tab-layer-actual"]').addClass('d-none');
 		$('[href="#tab-layer-application"]').addClass('d-none');
 		$('[href="#tab-layer-request"]').addClass('d-none');
 		switch (e.target.value) {
-		case 'editable':
-			$('[href="#tab-category-config"]').removeClass('d-none');
-			$('[href="#tab-layer-application"]').removeClass('d-none');
-			break;
 		case 'readonly':
 			$('[href="#tab-layer-actual"]').removeClass('d-none');
 			$('[href="#tab-layer-request"]').removeClass('d-none');
+			break;
+		case 'editable':
+			$('[href="#tab-category-config"]').removeClass('d-none');
+			$('[href="#tab-layer-application"]').removeClass('d-none');
 			break;
 		case 'both':
 			$('[href="#tab-category-config"]').removeClass('d-none');
@@ -399,6 +399,15 @@ $(() => {
 				drawIndex('index-request-table-primary_keys-data', vars.primary_keys);
 				drawIndex('index-request-table-actions-data', vars.actions);
 				drawIndex('index-request-table-columns-data', vars.columns);
+			},
+		});
+	});
+	$('[href="#tab-application-table"]').on('click', () => {
+		$.ajax({
+			'url': siteUrl + 'api/console/get_application_database',
+			'dataType': 'json',
+			'success': (vars) => {
+				drawSelector('selector-application-table', vars.tables);
 			},
 		});
 	});
