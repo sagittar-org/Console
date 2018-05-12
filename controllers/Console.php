@@ -79,6 +79,9 @@ class Console
 										'references' => [
 											'index-actual-database-references' => \pieni\Proto\ActualDatabase::$columns['references'],
 										],
+										'er_diagram' => [
+											'image-actual-database-er_diagram' => \pieni\Proto\ActualDatabase::$columns['er_diagram'],
+										],
 									],
 								],
 								'table' => [

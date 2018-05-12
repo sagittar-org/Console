@@ -308,6 +308,7 @@ $(() => {
 			'success': (vars) => {
 				drawIndex('index-actual-database-tables-data', vars.tables);
 				drawIndex('index-actual-database-references-data', vars.references);
+				drawImage('image-actual-database-er_diagram-data', vars.er_diagram);
 				drawSelector('selector-actual-table', vars.tables);
 			},
 		});
