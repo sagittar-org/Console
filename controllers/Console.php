@@ -90,6 +90,9 @@ class Console
 										'primary_keys' => [
 											'index-actual-table-primary_keys' => \pieni\Proto\ActualTable::$columns['primary_keys'],
 										],
+										'children' => [
+											'index-actual-table-children' => \pieni\Proto\ActualTable::$columns['children'],
+										],
 										'columns' => [
 											'index-actual-table-columns' => \pieni\Proto\ActualTable::$columns['columns'],
 										],

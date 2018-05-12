@@ -319,6 +319,7 @@ $(() => {
 			'dataType': 'json',
 			'success': (vars) => {
 				drawIndex('index-actual-table-primary_keys-data', vars.primary_keys);
+				drawIndex('index-actual-table-children-data', vars.children);
 				drawIndex('index-actual-table-columns-data', vars.columns);
 			},
 		});
