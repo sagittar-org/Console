@@ -21,31 +21,41 @@ class Console
 		$config = $this->config->get();
 		$this->database = $config['db']['database']['value'];
 		$this->db = new mysqli($config['db']['host']['value'], $config['db']['user']['value'], $config['db']['password']['value']);
-		$this->actual_database = new \pieni\Sync\Handler('actual_database', [
+		$this->actual_database = $actual_database = new \pieni\Sync\Handler('actual_database', [
 			['\pieni\Sync\Json', ['path' => FCPATH.'/sync/json']],
 			['\pieni\Proto\ActualDatabase', ['database' => $this->database, 'db' => $this->db]],
 		]);
-		$this->application_database = new \pieni\Sync\Handler('application_database', [
+		$this->application_database = $application_database = new \pieni\Sync\Handler('application_database', [
 			['\pieni\Sync\Json', ['path' => FCPATH.'/sync/json']],
 			['\pieni\Sync\Excel', ['path' => FCPATH.'/sync/excel']],
-			['\pieni\Proto\ApplicationDatabase', ['actual_database' => $this->actual_database]],
+			['\pieni\Proto\ApplicationDatabase', ['actual_database' => $actual_database]],
 		]);
-		$this->request_database = new \pieni\Sync\Handler('request_database', [
+		$this->filter_database = $filter_database = new \pieni\Sync\Handler('filter_database', [
 			['\pieni\Sync\Json', ['path' => FCPATH.'/sync/json']],
-			['\pieni\Proto\RequestDatabase', ['application_database' => $this->application_database]],
+			['\pieni\Sync\Excel', ['path' => FCPATH.'/sync/excel']],
+			['\pieni\Proto\FilterDatabase', []],
 		]);
-		$this->actual_table = new \pieni\Sync\Handler('actual_table', [
+		$this->request_database = $request_database = new \pieni\Sync\Handler('request_database', [
+			['\pieni\Sync\Json', ['path' => FCPATH.'/sync/json']],
+			['\pieni\Proto\RequestDatabase', ['actual_database' => $actual_database, 'application_database' => $application_database, 'filter_database' => $filter_database]],
+		]);
+		$this->actual_table = $actual_table = new \pieni\Sync\Handler('actual_table', [
 			['\pieni\Sync\Json', ['path' => FCPATH.'/sync/json']],
 			['\pieni\Proto\ActualTable', ['database' => $this->database, 'db' => $this->db]],
 		]);
-		$this->application_table = new \pieni\Sync\Handler('application_table', [
+		$this->application_table = $application_table = new \pieni\Sync\Handler('application_table', [
 			['\pieni\Sync\Json', ['path' => FCPATH.'/sync/json']],
 			['\pieni\Sync\Excel', ['path' => FCPATH.'/sync/excel']],
-			['\pieni\Proto\ApplicationTable', ['actual_table' => $this->actual_table]],
+			['\pieni\Proto\ApplicationTable', ['config' => $config, 'actual_database' => $actual_database, 'actual_table' => $actual_table]],
 		]);
-		$this->request_table = new \pieni\Sync\Handler('request_table', [
+		$this->filter_table = $filter_table = new \pieni\Sync\Handler('filter_table', [
 			['\pieni\Sync\Json', ['path' => FCPATH.'/sync/json']],
-			['\pieni\Proto\RequestTable', ['request_database' => $this->request_database, 'application_table' => $this->application_table]],
+			['\pieni\Sync\Excel', ['path' => FCPATH.'/sync/excel']],
+			['\pieni\Proto\FilterTable', []],
+		]);
+		$this->request_table = $request_table = new \pieni\Sync\Handler('request_table', [
+			['\pieni\Sync\Json', ['path' => FCPATH.'/sync/json']],
+			['\pieni\Proto\RequestTable', ['request_database' => $request_database, 'actual_table' => $actual_table, 'application_table' => $application_table, 'filter_table' => $filter_table]],
 		]);
 	}
 
@@ -79,9 +89,6 @@ class Console
 										'references' => [
 											'index-actual-database-references' => \pieni\Proto\ActualDatabase::$columns['references'],
 										],
-										'er_diagram' => [
-											'image-actual-database-er_diagram' => \pieni\Proto\ActualDatabase::$columns['er_diagram'],
-										],
 									],
 								],
 								'table' => [
@@ -89,9 +96,6 @@ class Console
 									'tab-actual-table' => [
 										'primary_keys' => [
 											'index-actual-table-primary_keys' => \pieni\Proto\ActualTable::$columns['primary_keys'],
-										],
-										'children' => [
-											'index-actual-table-children' => \pieni\Proto\ActualTable::$columns['children'],
 										],
 										'columns' => [
 											'index-actual-table-columns' => \pieni\Proto\ActualTable::$columns['columns'],
@@ -110,9 +114,6 @@ class Console
 										'references' => [
 											'editable-application-database-references' => \pieni\Proto\ApplicationDatabase::$columns['references'],
 										],
-										'unset' => [
-											'editable-application-database-unset' => \pieni\Proto\ApplicationDatabase::$columns['unset'],
-										],
 									],
 								],
 								'table' => [
@@ -123,9 +124,6 @@ class Console
 										],
 										'columns' => [
 											'editable-application-table-columns' => \pieni\Proto\ApplicationTable::$columns['columns'],
-										],
-										'unset' => [
-											'editable-application-table-unset' => \pieni\Proto\ApplicationTable::$columns['unset'],
 										],
 									],
 								],
@@ -141,9 +139,6 @@ class Console
 										],
 										'references' => [
 											'index-request-database-references' => \pieni\Proto\RequestDatabase::$columns['references'],
-										],
-										'er_diagram' => [
-											'image-request-database-er_diagram' => \pieni\Proto\RequestDatabase::$columns['er_diagram'],
 										],
 									],
 								],

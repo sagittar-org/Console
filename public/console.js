@@ -308,7 +308,6 @@ $(() => {
 			'success': (vars) => {
 				drawIndex('index-actual-database-tables-data', vars.tables);
 				drawIndex('index-actual-database-references-data', vars.references);
-				drawImage('image-actual-database-er_diagram-data', vars.er_diagram);
 				drawSelector('selector-actual-table', vars.tables);
 			},
 		});
@@ -319,7 +318,6 @@ $(() => {
 			'dataType': 'json',
 			'success': (vars) => {
 				drawIndex('index-actual-table-primary_keys-data', vars.primary_keys);
-				drawIndex('index-actual-table-children-data', vars.children);
 				drawIndex('index-actual-table-columns-data', vars.columns);
 			},
 		});
@@ -332,7 +330,6 @@ $(() => {
 				window.units.application_database = vars;
 				drawIndex('editable-application-database-tables-data', vars.tables);
 				drawIndex('editable-application-database-references-data', vars.references);
-				drawIndex('editable-application-database-unset-data', vars.unset);
 			},
 		});
 		$.ajax({
@@ -351,7 +348,6 @@ $(() => {
 				window.units['application_table.' + e.target.value] = vars;
 				drawIndex('editable-application-table-actions-data', vars.actions);
 				drawIndex('editable-application-table-columns-data', vars.columns);
-				drawIndex('editable-application-table-unset-data', vars.unset);
 			},
 		});
 	});
@@ -372,7 +368,6 @@ $(() => {
 			'success': (vars) => {
 				drawIndex('index-request-database-tables-data', vars.tables);
 				drawIndex('index-request-database-references-data', vars.references);
-				drawImage('image-request-database-er_diagram-data', vars.er_diagram);
 				drawSelector('selector-request-alias', Object.assign(vars.tables, vars.references));
 				$('#selector-request-action > *:gt(0)').remove();
 				$('#index-request-table-primary_keys-data > *:gt(0)').remove();
