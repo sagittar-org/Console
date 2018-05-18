@@ -46,7 +46,7 @@ class Console
 		$this->application_table = $application_table = new \pieni\Sync\Handler('application_table', [
 			['\pieni\Sync\Json', ['path' => FCPATH.'/sync/json']],
 			['\pieni\Sync\Excel', ['path' => FCPATH.'/sync/excel']],
-			['\pieni\Proto\ApplicationTable', ['config' => $config, 'actual_database' => $actual_database, 'actual_table' => $actual_table]],
+			['\pieni\Proto\ApplicationTable', ['config' => $this->config, 'actual_database' => $actual_database, 'actual_table' => $actual_table]],
 		]);
 		$this->filter_table = $filter_table = new \pieni\Sync\Handler('filter_table', [
 			['\pieni\Sync\Json', ['path' => FCPATH.'/sync/json']],
