@@ -340,6 +340,23 @@ $(() => {
 			},
 		});
 	});
+	$('[href="#tab-layer-filter"]').on('click', () => {
+		$.ajax({
+			'url': siteUrl + 'api/console/get_filter_database',
+			'dataType': 'json',
+			'success': (vars) => {
+				window.units.filter_database = vars;
+				drawIndex('editable-filter-database-filters-data', vars.filters);
+			},
+		});
+		$.ajax({
+			'url': siteUrl + 'api/console/get_actual_database',
+			'dataType': 'json',
+			'success': (vars) => {
+				drawSelector('selector-filter-table', vars.tables);
+			},
+		});
+	});
 	$('[name="selector-application-table"]').on('click', (e) => {
 		$.ajax({
 			'url': siteUrl + 'api/console/get_application_table/' + e.target.value,
@@ -348,6 +365,16 @@ $(() => {
 				window.units['application_table.' + e.target.value] = vars;
 				drawIndex('editable-application-table-actions-data', vars.actions);
 				drawIndex('editable-application-table-columns-data', vars.columns);
+			},
+		});
+	});
+	$('[name="selector-filter-table"]').on('click', (e) => {
+		$.ajax({
+			'url': siteUrl + 'api/console/get_filter_table/' + e.target.value,
+			'dataType': 'json',
+			'success': (vars) => {
+				window.units['filter_table.' + e.target.value] = vars;
+				drawIndex('editable-filter-table-filters-data', vars.filters);
 			},
 		});
 	});
@@ -405,6 +432,15 @@ $(() => {
 			'dataType': 'json',
 			'success': (vars) => {
 				drawSelector('selector-application-table', vars.tables);
+			},
+		});
+	});
+	$('[href="#tab-filter-table"]').on('click', () => {
+		$.ajax({
+			'url': siteUrl + 'api/console/get_application_database',
+			'dataType': 'json',
+			'success': (vars) => {
+				drawSelector('selector-filter-table', vars.tables);
 			},
 		});
 	});

@@ -129,6 +129,25 @@ class Console
 								],
 							],
 						],
+						'filter' => [
+							'tab-filter' => [
+								'database' => [
+									'tab-filter-database' => [
+										'filters' => [
+											'editable-filter-database-filters' => \pieni\Proto\FilterDatabase::$columns['filters'],
+										],
+									],
+								],
+								'table' => [
+									'selector-filter-table' => null,
+									'tab-application-table' => [
+										'filters' => [
+											'editable-filter-table-filters' => \pieni\Proto\FilterTable::$columns['filters'],
+										],
+									],
+								],
+							],
+						],
 						'request' => [
 							'selector-request-actor' => null,
 							'tab-request' => [
@@ -189,6 +208,16 @@ class Console
 	public function get_application_table($name)
 	{
 		return $this->application_table->get($name);
+	}
+
+	public function get_filter_database()
+	{
+		return $this->filter_database->get();
+	}
+
+	public function get_filter_table($name)
+	{
+		return $this->filter_table->get($name);
 	}
 
 	public function get_request_database($actor)
