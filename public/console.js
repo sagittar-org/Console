@@ -125,8 +125,14 @@ function showModalEdit(elmId, row, column, field)
 	} else if (elmId.match(/^editable-application-database/)) {
 		unit = 'application_database';
 		table = arr[3];
+	} else if (elmId.match(/^editable-filter-database/)) {
+		unit = 'filter_database';
+		table = arr[3];
 	} else if (elmId.match(/^editable-application-table/)) {
 		unit = 'application_table.' + $('[name="selector-application-table"]:checked').val();
+		table = arr[3];
+	} else if (elmId.match(/^editable-filter-table/)) {
+		unit = 'filter_table.' + $('[name="selector-filter-table"]:checked').val();
 		table = arr[3];
 	} else {
 		return;
@@ -153,8 +159,14 @@ function showModalDelete(elmId, row)
 	} else if (elmId.match(/^editable-application-database/)) {
 		unit = 'application_database';
 		table = arr[3];
+	} else if (elmId.match(/^editable-filter-database/)) {
+		unit = 'filter_database';
+		table = arr[3];
 	} else if (elmId.match(/^editable-application-table/)) {
 		unit = 'application_table.' + $('[name="selector-application-table"]:checked').val();
+		table = arr[3];
+	} else if (elmId.match(/^editable-filter-table/)) {
+		unit = 'filter_table.' + $('[name="selector-filter-table"]:checked').val();
 		table = arr[3];
 	} else {
 		return;
@@ -180,8 +192,14 @@ function showModalAdd(elmId)
 	} else if (elmId.match(/^editable-application-database/)) {
 		unit = 'application_database';
 		table = arr[3];
+	} else if (elmId.match(/^editable-filter-database/)) {
+		unit = 'filter_database';
+		table = arr[3];
 	} else if (elmId.match(/^editable-application-table/)) {
 		unit = 'application_table.' + $('[name="selector-application-table"]:checked').val();
+		table = arr[3];
+	} else if (elmId.match(/^editable-filter-table/)) {
+		unit = 'filter_table.' + $('[name="selector-filter-table"]:checked').val();
 		table = arr[3];
 	} else {
 		return;
